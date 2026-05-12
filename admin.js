@@ -1,6 +1,6 @@
 const owner = "Dhananjayji";
 const repo = "djayblogs";
-const branch = "main";
+const branch = "gh-pages";
 const postsPath = "posts.json";
 
 const tokenForm = document.querySelector("#tokenForm");
