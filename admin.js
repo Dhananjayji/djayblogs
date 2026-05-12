@@ -2,8 +2,10 @@ const owner = "Dhananjayji";
 const repo = "djayblogs";
 const branch = "gh-pages";
 const postsPath = "posts.json";
+const adminUser = "djay";
 
 const tokenForm = document.querySelector("#tokenForm");
+const adminIdInput = document.querySelector("#adminId");
 const tokenInput = document.querySelector("#githubToken");
 const forgetToken = document.querySelector("#forgetToken");
 const adminPosts = document.querySelector("#adminPosts");
@@ -156,19 +158,25 @@ async function savePosts(message) {
 
 tokenForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (adminIdInput.value.trim().toLowerCase() !== adminUser) {
+    setStatus("Wrong admin ID.", true);
+    return;
+  }
   localStorage.setItem("djayGithubToken", tokenInput.value.trim());
   try {
     await loadPostsFromGitHub();
+    adminIdInput.value = "";
     tokenInput.value = "";
   } catch (error) {
-    setStatus(error.message, true);
+    setStatus("Login failed. Please check your password.", true);
   }
 });
 
 forgetToken.addEventListener("click", () => {
   localStorage.removeItem("djayGithubToken");
+  adminIdInput.value = "";
   tokenInput.value = "";
-  setStatus("Token removed from this browser.");
+  setStatus("Logged out.");
 });
 
 adminPosts.addEventListener("click", (event) => {

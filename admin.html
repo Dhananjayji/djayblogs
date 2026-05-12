@@ -21,7 +21,6 @@
       </a>
       <nav class="nav" aria-label="Admin navigation">
         <a href="index.html">View site</a>
-        <a href="https://github.com/Dhananjayji/djayblogs" target="_blank" rel="noopener">GitHub</a>
       </nav>
     </header>
 
@@ -34,22 +33,32 @@
 
         <form id="tokenForm" class="draft-form admin-token-form">
           <label>
-            GitHub fine-grained token
+            Admin ID
+            <input
+              id="adminId"
+              type="text"
+              autocomplete="username"
+              placeholder="Enter admin ID"
+              required
+            />
+          </label>
+          <label>
+            Password
             <input
               id="githubToken"
               type="password"
-              autocomplete="off"
-              placeholder="Paste token with repository Contents read/write access"
+              autocomplete="current-password"
+              placeholder="Enter admin password"
               required
             />
           </label>
           <div class="form-actions">
-            <button class="button primary" type="submit">Connect</button>
-            <button class="button secondary" id="forgetToken" type="button">Forget token</button>
+            <button class="button primary" type="submit">Login</button>
+            <button class="button secondary" id="forgetToken" type="button">Logout</button>
           </div>
         </form>
         <p class="admin-help">
-          The token stays in this browser only. Do not use this editor from a shared computer.
+          Use this page only on your own device. Click Logout when you are done.
         </p>
       </section>
 
