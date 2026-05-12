@@ -8,10 +8,6 @@ const dialogMeta = document.querySelector("#dialogMeta");
 const dialogTitle = document.querySelector("#dialogTitle");
 const dialogBody = document.querySelector("#dialogBody");
 const closeDialog = document.querySelector("#closeDialog");
-const draftForm = document.querySelector("#draftForm");
-const exportDrafts = document.querySelector("#exportDrafts");
-const subscribeForm = document.querySelector("#subscribeForm");
-const subscribeMessage = document.querySelector("#subscribeMessage");
 const themeToggle = document.querySelector("#themeToggle");
 
 let posts = [];
@@ -58,16 +54,8 @@ function formatDate(value) {
   }).format(new Date(value));
 }
 
-function getDrafts() {
-  return JSON.parse(localStorage.getItem("djayDrafts") || "[]");
-}
-
-function saveDrafts(drafts) {
-  localStorage.setItem("djayDrafts", JSON.stringify(drafts));
-}
-
 function allPosts() {
-  return [...getDrafts(), ...posts].sort((a, b) => new Date(b.date) - new Date(a.date));
+  return [...posts].sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 function getTopics(items) {
@@ -110,7 +98,7 @@ function renderPosts() {
             <div class="post-meta">
               <span>${post.topic}</span>
               <span>${formatDate(post.date)}</span>
-              <span>${post.readTime || "Draft"}</span>
+              <span>${post.readTime || "Post"}</span>
             </div>
             <h3>${post.title}</h3>
             <p>${post.excerpt}</p>
@@ -134,7 +122,7 @@ function renderPosts() {
 }
 
 function openPost(post) {
-  dialogMeta.textContent = `${post.topic} / ${formatDate(post.date)} / ${post.readTime || "Draft"}`;
+  dialogMeta.textContent = `${post.topic} / ${formatDate(post.date)} / ${post.readTime || "Post"}`;
   dialogTitle.textContent = post.title;
   dialogBody.innerHTML = post.content
     .split("\n")
@@ -154,11 +142,6 @@ async function loadPosts() {
   renderPosts();
 }
 
-window.setPublishedPosts = (publishedPosts) => {
-  posts = publishedPosts;
-  renderPosts();
-};
-
 topicList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-topic]");
   if (!button) return;
@@ -169,44 +152,6 @@ topicList.addEventListener("click", (event) => {
 searchInput.addEventListener("input", renderPosts);
 
 closeDialog.addEventListener("click", () => dialog.close());
-
-draftForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const title = document.querySelector("#draftTitle").value.trim();
-  const topic = document.querySelector("#draftTopic").value.trim();
-  const content = document.querySelector("#draftContent").value.trim();
-  const excerpt = content.length > 140 ? `${content.slice(0, 137)}...` : content;
-  const draft = {
-    title,
-    topic,
-    date: new Date().toISOString().slice(0, 10),
-    readTime: "Draft",
-    excerpt,
-    content,
-  };
-
-  saveDrafts([draft, ...getDrafts()]);
-  draftForm.reset();
-  activeTopic = "All";
-  renderPosts();
-});
-
-exportDrafts.addEventListener("click", () => {
-  const drafts = getDrafts();
-  const blob = new Blob([JSON.stringify(drafts, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "djay-blog-drafts.json";
-  link.click();
-  URL.revokeObjectURL(url);
-});
-
-subscribeForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  subscribeMessage.textContent = "Thanks. Connect this form to a newsletter tool when you go live.";
-  subscribeForm.reset();
-});
 
 themeToggle.addEventListener("click", () => {
   const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";

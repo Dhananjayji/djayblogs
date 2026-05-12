@@ -186,21 +186,8 @@ main {
   color: var(--ink);
 }
 
-.button.danger {
-  border-color: #b23b3b;
-  background: #b23b3b;
-  color: #ffffff;
-}
-
-.button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
 .hero-panel,
-.about,
-.newsletter,
-.writer {
+.about {
   border: 1px solid var(--line);
   border-radius: 0.8rem;
   background: color-mix(in srgb, var(--surface) 88%, transparent);
@@ -246,10 +233,7 @@ main {
   font-weight: 800;
 }
 
-.search input,
-.draft-form input,
-.draft-form textarea,
-.newsletter input {
+.search input {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 0.65rem;
@@ -259,10 +243,7 @@ main {
   outline: none;
 }
 
-.search input:focus,
-.draft-form input:focus,
-.draft-form textarea:focus,
-.newsletter input:focus {
+.search input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
 }
@@ -303,7 +284,6 @@ main {
 
 .section-heading h2,
 .about h2,
-.newsletter h2,
 .post-card h3,
 .post-dialog h2 {
   margin: 0;
@@ -377,18 +357,15 @@ main {
   gap: 1rem;
 }
 
-.about,
-.newsletter {
+.about {
   padding: 1.25rem;
 }
 
-.about h2,
-.newsletter h2 {
+.about h2 {
   font-size: 2rem;
 }
 
-.about p:not(.eyebrow),
-.newsletter p:not(.eyebrow) {
+.about p:not(.eyebrow) {
   color: var(--muted);
 }
 
@@ -425,38 +402,6 @@ main {
   color: var(--muted);
   font-size: 0.85rem;
   font-weight: 800;
-}
-
-.newsletter form,
-.draft-form {
-  display: grid;
-  gap: 0.8rem;
-}
-
-.writer {
-  margin-bottom: 4rem;
-  padding: clamp(1.25rem, 4vw, 2rem);
-}
-
-.draft-form {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.draft-form label {
-  display: grid;
-  gap: 0.4rem;
-  color: var(--muted);
-  font-size: 0.85rem;
-  font-weight: 800;
-}
-
-.draft-form label:nth-child(3),
-.form-actions {
-  grid-column: 1 / -1;
-}
-
-.draft-form textarea {
-  resize: vertical;
 }
 
 .form-actions {
@@ -528,85 +473,13 @@ main {
   text-align: center;
 }
 
-.admin-main {
-  padding-top: 3rem;
-}
-
-.admin-panel .section-heading h1 {
-  margin: 0;
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(3rem, 8vw, 6rem);
-  font-weight: 400;
-  line-height: 0.95;
-}
-
-.admin-token-form {
-  grid-template-columns: 1fr;
-}
-
-.admin-layout {
-  grid-template-columns: 320px minmax(0, 1fr);
-  padding-top: 1.5rem;
-}
-
-.admin-post-list {
-  display: grid;
-  gap: 0.55rem;
-}
-
-.admin-post-button {
-  display: grid;
-  gap: 0.2rem;
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 0.65rem;
-  background: var(--surface-strong);
-  color: var(--ink);
-  padding: 0.85rem;
-  text-align: left;
-  cursor: pointer;
-}
-
-.admin-post-button.active {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-
-.admin-post-button span,
-.admin-help,
-.admin-status {
-  color: var(--muted);
-}
-
-.admin-help,
-.admin-status {
-  margin: 0.85rem 0 0;
-}
-
-.admin-status[data-state="error"] {
-  color: #b23b3b;
-  font-weight: 800;
-}
-
-.admin-status[data-state="ok"] {
-  color: var(--accent);
-  font-weight: 800;
-}
-
-.admin-editor .draft-form label:nth-child(5),
-.admin-editor .draft-form label:nth-child(6) {
-  grid-column: 1 / -1;
-}
-
 @media (max-width: 860px) {
   .nav {
     display: none;
   }
 
   .hero,
-  .content-grid,
-  .draft-form,
-  .admin-layout {
+  .content-grid {
     grid-template-columns: 1fr;
   }
 
