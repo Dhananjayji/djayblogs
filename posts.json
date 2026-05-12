@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Welcome to djay Blogs",
+    "topic": "Notes",
+    "date": "2026-05-11",
+    "readTime": "2 min read",
+    "excerpt": "This is the first post in a personal corner of the web built for clear thinking and honest writing.",
+    "content": "This space is ready for your thoughts. Replace the sample posts in posts.json with your own essays, notes, tutorials, or reflections.\n\nKeep the writing direct, human, and useful. You can publish short notes, long-form essays, learning logs, travel memories, or anything else that deserves a permanent address."
+  },
+  {
+    "title": "The Small Habit of Writing",
+    "topic": "Life",
+    "date": "2026-05-10",
+    "readTime": "3 min read",
+    "excerpt": "A tiny writing practice can become a reliable way to notice what matters before it disappears.",
+    "content": "Writing does not need a perfect desk or a perfect mood. It needs a place to land.\n\nA blog gives your ideas a little gravity, and gravity is often enough to turn a passing thought into something real."
+  },
+  {
+    "title": "Why Own Your Words",
+    "topic": "Web",
+    "date": "2026-05-09",
+    "readTime": "4 min read",
+    "excerpt": "Social platforms are rented rooms. A personal site is a place with your name on the door.",
+    "content": "Publishing on your own site means your work has a stable address. You can still share links anywhere, but the original home remains yours.\n\nThat is simple, practical, and quietly powerful."
+  }
+]

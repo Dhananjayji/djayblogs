@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="djay Blogs is a personal space for thoughts, essays, notes, and creative reflections."
+    />
+    <title>djay Blogs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="djay Blogs home">
+        <span class="brand-mark">d</span>
+        <span>djay Blogs</span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#latest">Latest</a>
+        <a href="#topics">Topics</a>
+        <a href="#write">Write</a>
+        <a href="https://wa.me/917524078507" target="_blank" rel="noopener">WhatsApp</a>
+      </nav>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle color theme">
+        <span aria-hidden="true">T</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-copy">
+          <p class="eyebrow">Personal essays, field notes, and quiet sparks</p>
+          <h1 id="heroTitle">djay Blogs</h1>
+          <p>
+            A clean publishing space for ideas while they are still alive:
+            half-formed thoughts, finished essays, useful notes, and stories worth keeping.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#latest">Read posts</a>
+            <a class="button secondary" href="#write">Draft an idea</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Featured thought">
+          <p>Today's note</p>
+          <blockquote>
+            Good writing does not always begin with certainty. Sometimes it begins with a sentence
+            that refuses to leave.
+          </blockquote>
+        </aside>
+      </section>
+
+      <section class="toolbar" aria-label="Blog filters">
+        <label class="search">
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="Find a thought..." autocomplete="off" />
+        </label>
+        <div class="topic-list" id="topicList" aria-label="Filter by topic"></div>
+      </section>
+
+      <section class="content-grid" id="latest">
+        <div>
+          <div class="section-heading">
+            <p class="eyebrow">Latest writing</p>
+            <h2>Fresh from the notebook</h2>
+          </div>
+          <div class="posts" id="posts"></div>
+        </div>
+
+        <aside class="sidebar" id="topics">
+          <section class="about">
+            <p class="eyebrow">About</p>
+            <h2>Written by djay</h2>
+            <p>
+              This is your home for publishing thoughts, tutorials, opinions, travel notes, and
+              anything that deserves a permanent address.
+            </p>
+            <a class="whatsapp-link" href="https://wa.me/917524078507" target="_blank" rel="noopener">
+              Connect on WhatsApp: +91 75240 78507
+            </a>
+          </section>
+          <section class="stats" aria-label="Blog statistics">
+            <div>
+              <strong id="postCount">0</strong>
+              <span>Posts</span>
+            </div>
+            <div>
+              <strong id="topicCount">0</strong>
+              <span>Topics</span>
+            </div>
+          </section>
+          <section class="newsletter">
+            <p class="eyebrow">Stay close</p>
+            <h2>Notes for future readers</h2>
+            <form id="subscribeForm">
+              <input type="email" placeholder="you@example.com" aria-label="Email address" required />
+              <button class="button primary" type="submit">Subscribe</button>
+            </form>
+            <p id="subscribeMessage" role="status"></p>
+          </section>
+        </aside>
+      </section>
+
+      <section class="writer" id="write" aria-labelledby="writeTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Draft desk</p>
+          <h2 id="writeTitle">Write a new thought</h2>
+        </div>
+        <form id="draftForm" class="draft-form">
+          <label>
+            Title
+            <input id="draftTitle" type="text" placeholder="What are you thinking about?" required />
+          </label>
+          <label>
+            Topic
+            <input id="draftTopic" type="text" placeholder="Life, Tech, Notes..." required />
+          </label>
+          <label>
+            Content
+            <textarea
+              id="draftContent"
+              rows="7"
+              placeholder="Start with the sentence that will not leave you..."
+              required
+            ></textarea>
+          </label>
+          <div class="form-actions">
+            <button class="button primary" type="submit">Save draft in browser</button>
+            <button class="button secondary" id="exportDrafts" type="button">Export drafts</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <dialog id="postDialog" class="post-dialog">
+      <article>
+        <button class="icon-button close-dialog" id="closeDialog" type="button" aria-label="Close post">
+          <span aria-hidden="true">x</span>
+        </button>
+        <p class="eyebrow" id="dialogMeta"></p>
+        <h2 id="dialogTitle"></h2>
+        <div id="dialogBody"></div>
+      </article>
+    </dialog>
+
+    <footer class="site-footer">
+      <p>(c) <span id="year"></span> djay Blogs. Built for GitHub Pages.</p>
+      <div class="footer-links">
+        <a href="https://wa.me/917524078507" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
