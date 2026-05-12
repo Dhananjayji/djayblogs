@@ -154,6 +154,11 @@ async function loadPosts() {
   renderPosts();
 }
 
+window.setPublishedPosts = (publishedPosts) => {
+  posts = publishedPosts;
+  renderPosts();
+};
+
 topicList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-topic]");
   if (!button) return;

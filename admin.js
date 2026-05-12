@@ -1,12 +1,26 @@
-const owner = "Dhananjayji";
-const repo = "djayblogs";
-const branch = "gh-pages";
-const postsPath = "posts.json";
-const adminUser = "djay";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getFirestore,
+  orderBy,
+  query,
+  setDoc,
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { adminEmail, firebaseConfig } from "./firebase-config.js";
 
 const tokenForm = document.querySelector("#tokenForm");
 const adminIdInput = document.querySelector("#adminId");
-const tokenInput = document.querySelector("#githubToken");
+const passwordInput = document.querySelector("#adminPassword");
 const forgetToken = document.querySelector("#forgetToken");
 const adminPosts = document.querySelector("#adminPosts");
 const postForm = document.querySelector("#postForm");
@@ -14,6 +28,7 @@ const editorTitle = document.querySelector("#editorTitle");
 const adminStatus = document.querySelector("#adminStatus");
 const newPost = document.querySelector("#newPost");
 const deletePost = document.querySelector("#deletePost");
+const adminUser = "djay";
 
 const fields = {
   title: document.querySelector("#postTitle"),
@@ -24,12 +39,14 @@ const fields = {
   content: document.querySelector("#postContent"),
 };
 
+let app;
+let auth;
+let db;
 let posts = [];
-let fileSha = "";
 let selectedIndex = -1;
 
-function getToken() {
-  return localStorage.getItem("djayGithubToken") || "";
+function hasFirebaseConfig() {
+  return firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("PASTE_");
 }
 
 function setStatus(message, isError = false) {
@@ -37,49 +54,28 @@ function setStatus(message, isError = false) {
   adminStatus.dataset.state = isError ? "error" : "ok";
 }
 
-function apiHeaders() {
-  return {
-    Authorization: `Bearer ${getToken()}`,
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-  };
-}
-
-function encodeBase64(value) {
-  return btoa(unescape(encodeURIComponent(value)));
-}
-
-function decodeBase64(value) {
-  return decodeURIComponent(escape(atob(value.replace(/\n/g, ""))));
-}
-
-async function githubRequest(url, options = {}) {
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      ...apiHeaders(),
-      ...(options.headers || {}),
-    },
-  });
-
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({}));
-    throw new Error(body.message || `GitHub returned ${response.status}`);
+function startFirebase() {
+  if (!hasFirebaseConfig()) {
+    setStatus("Admin setup is not finished yet. Add Firebase settings first.", true);
+    return false;
   }
 
-  return response.json();
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  return true;
 }
 
-async function loadPostsFromGitHub() {
+async function loadPosts() {
   setStatus("Loading posts...");
-  const data = await githubRequest(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${postsPath}?ref=${branch}`,
-  );
-  fileSha = data.sha;
-  posts = JSON.parse(decodeBase64(data.content));
+  const snapshot = await getDocs(query(collection(db, "posts"), orderBy("date", "desc")));
+  posts = snapshot.docs.map((item) => ({
+    id: item.id,
+    ...item.data(),
+  }));
   renderPostList();
   clearForm();
-  setStatus("Connected. Choose a post or create a new one.");
+  setStatus("Ready. Choose a post or create a new one.");
 }
 
 function renderPostList() {
@@ -135,47 +131,25 @@ function readForm() {
   };
 }
 
-async function savePosts(message) {
-  setStatus("Publishing changes...");
-  const body = {
-    message,
-    content: encodeBase64(`${JSON.stringify(posts, null, 2)}\n`),
-    sha: fileSha,
-    branch,
-  };
-
-  const data = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents/${postsPath}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-
-  fileSha = data.content.sha;
-  setStatus("Published. GitHub Pages should update in about a minute.");
-}
-
 tokenForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+
   if (adminIdInput.value.trim().toLowerCase() !== adminUser) {
     setStatus("Wrong admin ID.", true);
     return;
   }
-  localStorage.setItem("djayGithubToken", tokenInput.value.trim());
+
   try {
-    await loadPostsFromGitHub();
+    await signInWithEmailAndPassword(auth, adminEmail, passwordInput.value);
     adminIdInput.value = "";
-    tokenInput.value = "";
-  } catch (error) {
+    passwordInput.value = "";
+  } catch {
     setStatus("Login failed. Please check your password.", true);
   }
 });
 
-forgetToken.addEventListener("click", () => {
-  localStorage.removeItem("djayGithubToken");
-  adminIdInput.value = "";
-  tokenInput.value = "";
+forgetToken.addEventListener("click", async () => {
+  await signOut(auth);
   setStatus("Logged out.");
 });
 
@@ -190,19 +164,16 @@ newPost.addEventListener("click", clearForm);
 postForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const post = readForm();
-
-  if (selectedIndex >= 0) {
-    posts[selectedIndex] = post;
-  } else {
-    posts.unshift(post);
-    selectedIndex = 0;
-  }
-
-  posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-  renderPostList();
+  setStatus("Publishing...");
 
   try {
-    await savePosts(`Update blog post: ${post.title}`);
+    if (selectedIndex >= 0) {
+      await setDoc(doc(db, "posts", posts[selectedIndex].id), post);
+    } else {
+      await addDoc(collection(db, "posts"), post);
+    }
+    await loadPosts();
+    setStatus("Published. Refresh the blog page to see the change.");
   } catch (error) {
     setStatus(error.message, true);
   }
@@ -214,16 +185,23 @@ deletePost.addEventListener("click", async () => {
   const confirmed = confirm(`Delete "${post.title}"?`);
   if (!confirmed) return;
 
-  posts.splice(selectedIndex, 1);
-  clearForm();
-
   try {
-    await savePosts(`Delete blog post: ${post.title}`);
+    await deleteDoc(doc(db, "posts", post.id));
+    await loadPosts();
+    setStatus("Deleted.");
   } catch (error) {
     setStatus(error.message, true);
   }
 });
 
-if (getToken()) {
-  loadPostsFromGitHub().catch((error) => setStatus(error.message, true));
+if (startFirebase()) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loadPosts().catch((error) => setStatus(error.message, true));
+    } else {
+      posts = [];
+      renderPostList();
+      clearForm();
+    }
+  });
 }
