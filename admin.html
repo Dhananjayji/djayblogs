@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>djay Blogs Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">d</span>
+        <span>djay Blogs Admin</span>
+      </a>
+      <nav class="nav" aria-label="Admin navigation">
+        <a href="index.html">View site</a>
+      </nav>
+    </header>
+
+    <main class="admin-main">
+      <section class="admin-panel">
+        <div class="section-heading">
+          <p class="eyebrow">Private editor</p>
+          <h1>Post directly to your website</h1>
+        </div>
+
+        <form id="loginForm" class="admin-form">
+          <label>
+            Admin ID
+            <input id="adminId" type="text" autocomplete="username" placeholder="djay" required />
+          </label>
+          <label>
+            GitHub token
+            <input
+              id="githubToken"
+              type="password"
+              autocomplete="off"
+              placeholder="Paste your GitHub token"
+              required
+            />
+          </label>
+          <div class="form-actions">
+            <button class="button primary" type="submit">Login</button>
+            <button class="button secondary" id="logoutButton" type="button">Logout</button>
+          </div>
+        </form>
+        <p class="admin-help">
+          The token is saved only in this browser. Use Logout when you are done.
+        </p>
+      </section>
+
+      <section class="admin-layout">
+        <aside class="admin-panel">
+          <p class="eyebrow">Posts</p>
+          <div id="adminPosts" class="admin-post-list"></div>
+        </aside>
+
+        <section class="admin-panel">
+          <div class="section-heading">
+            <p class="eyebrow">Editor</p>
+            <h2 id="editorTitle">New post</h2>
+          </div>
+
+          <form id="postForm" class="admin-form">
+            <label>
+              Title
+              <input id="postTitle" type="text" required />
+            </label>
+            <label>
+              Topic
+              <input id="postTopic" type="text" required />
+            </label>
+            <label>
+              Date
+              <input id="postDate" type="date" required />
+            </label>
+            <label>
+              Read time
+              <input id="postReadTime" type="text" placeholder="3 min read" required />
+            </label>
+            <label class="wide-field">
+              Excerpt
+              <textarea id="postExcerpt" rows="3" required></textarea>
+            </label>
+            <label class="wide-field">
+              Content
+              <textarea id="postContent" rows="10" required></textarea>
+            </label>
+            <div class="form-actions wide-field">
+              <button class="button primary" type="submit">Publish</button>
+              <button class="button secondary" id="newPostButton" type="button">New post</button>
+              <button class="button danger" id="deletePostButton" type="button">Delete</button>
+            </div>
+          </form>
+          <p id="adminStatus" class="admin-status" role="status"></p>
+        </section>
+      </section>
+    </main>
+
+    <script src="admin.js"></script>
+  </body>
+</html>

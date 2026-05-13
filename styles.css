@@ -186,6 +186,17 @@ main {
   color: var(--ink);
 }
 
+.button.danger {
+  border-color: #b23b3b;
+  background: #b23b3b;
+  color: #ffffff;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .hero-panel,
 .about {
   border: 1px solid var(--line);
@@ -473,13 +484,129 @@ main {
   text-align: center;
 }
 
+.admin-main {
+  padding: 3rem 0;
+}
+
+.admin-panel {
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: var(--shadow);
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.admin-panel h1,
+.admin-panel h2 {
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.admin-panel h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+}
+
+.admin-panel h2 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.admin-form label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.admin-form input,
+.admin-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: var(--surface-strong);
+  color: var(--ink);
+  padding: 0.85rem 0.9rem;
+  outline: none;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.wide-field,
+.admin-form .form-actions {
+  grid-column: 1 / -1;
+}
+
+.admin-post-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.admin-post-button {
+  display: grid;
+  gap: 0.2rem;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: var(--surface-strong);
+  color: var(--ink);
+  padding: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-post-button.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.admin-post-button span,
+.admin-help {
+  color: var(--muted);
+}
+
+.admin-help,
+.admin-status {
+  margin: 0.85rem 0 0;
+}
+
+.admin-status[data-state="error"] {
+  color: #b23b3b;
+  font-weight: 800;
+}
+
+.admin-status[data-state="ok"] {
+  color: var(--accent);
+  font-weight: 800;
+}
+
 @media (max-width: 860px) {
   .nav {
     display: none;
   }
 
   .hero,
-  .content-grid {
+  .content-grid,
+  .admin-layout,
+  .admin-form {
     grid-template-columns: 1fr;
   }
 
